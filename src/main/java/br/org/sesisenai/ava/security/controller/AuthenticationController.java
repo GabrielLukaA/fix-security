@@ -1,5 +1,6 @@
 package br.org.sesisenai.ava.security.controller;
 
+import br.org.sesisenai.ava.entity.Usuario;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,11 +24,10 @@ public class AuthenticationController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> authenticate(HttpServletRequest request, HttpServletResponse response) {
-
-    return ResponseEntity.ok("s");
-
-
+    public ResponseEntity<String> authenticate(Usuario usuario,  HttpServletRequest request, HttpServletResponse response) {
+        Authentication authenticationToken = new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword());
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+    return ResponseEntity.ok("User authenticated");
     }
 }
 
