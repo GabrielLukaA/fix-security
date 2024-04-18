@@ -8,6 +8,8 @@
 //import org.springframework.stereotype.Component;
 //import org.springframework.web.filter.OncePerRequestFilter;
 //
+
+//Serve para salvar o cookie po, se não tu fica suavinho
 //import java.io.IOException;
 //@Component
 //@AllArgsConstructor

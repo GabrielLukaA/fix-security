@@ -25,7 +25,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<String> authenticate(Usuario usuario,  HttpServletRequest request, HttpServletResponse response) {
-        Authentication authenticationToken = new UsernamePasswordAuthenticationToken(usuario.getUsername(), usuario.getPassword());
+        Authentication authenticationToken = new UsernamePasswordAuthenticationToken(usuario.getUserDetailsEntity().getUsername(), usuario.getUserDetailsEntity().getPassword());
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
     return ResponseEntity.ok("User authenticated");
     }

@@ -2,12 +2,14 @@ package br.org.sesisenai.ava.entity;
 
 import br.org.sesisenai.ava.dto.abstraction.ResponseConversorDTO;
 import br.org.sesisenai.ava.dto.implementation.usuario.UsuarioResponseDTO;
+import br.org.sesisenai.ava.security.model.UserDetailsEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -17,16 +19,15 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Usuario implements ResponseConversorDTO<UsuarioResponseDTO>, UserDetails {
+public class Usuario implements ResponseConversorDTO<UsuarioResponseDTO> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
-    private String email;
-    private String senha;
-
+    @OneToOne(cascade = CascadeType.ALL)
+    private UserDetailsEntity userDetailsEntity;
     @Column(name = "data_cadastro")
     private LocalDateTime dataCadastro;
 
@@ -36,53 +37,20 @@ public class Usuario implements ResponseConversorDTO<UsuarioResponseDTO>, UserDe
     @OneToMany(mappedBy = "usuario")
     private Set<Inscricao> inscricoes;
 
-    public UsuarioResponseDTO toDTO() {
-        UsuarioResponseDTO usuarioResponseDTO = new UsuarioResponseDTO();
-        usuarioResponseDTO.setId(this.id);
-        usuarioResponseDTO.setNome(this.nome);
-        usuarioResponseDTO.setEmail(this.email);
-        usuarioResponseDTO.setDataCadastro(this.dataCadastro);
-        return usuarioResponseDTO;
-    }
-
     public Usuario(Long id) {
         this.id = id;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+    public UsuarioResponseDTO toDTO() {
+        UsuarioResponseDTO usuarioResponseDTO = new UsuarioResponseDTO();
+        usuarioResponseDTO.setId(this.id);
+        usuarioResponseDTO.setNome(this.nome);
+        usuarioResponseDTO.setDataCadastro(this.dataCadastro);
+        return usuarioResponseDTO;
     }
 
-    @Override
-    public String getPassword() {
-        return this.senha;
-    }
 
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
 
 

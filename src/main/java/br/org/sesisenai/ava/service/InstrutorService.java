@@ -5,9 +5,13 @@ import br.org.sesisenai.ava.dto.implementation.instrutor.InstrutorPostRequestDTO
 import br.org.sesisenai.ava.dto.implementation.instrutor.InstrutorResponseDTO;
 import br.org.sesisenai.ava.entity.Instrutor;
 import br.org.sesisenai.ava.repository.InstrutorRepository;
+import br.org.sesisenai.ava.security.model.Authorization;
+import br.org.sesisenai.ava.security.model.UserDetailsEntity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -16,6 +20,7 @@ public class InstrutorService {
 
     public InstrutorResponseDTO criarInstrutor(InstrutorPostRequestDTO instrutorDTO) {
         Instrutor instrutor = instrutorDTO.toEntity();
+        instrutor.getUserDetailsEntity().setAuthorities(List.of(Authorization.INSTRUTOR));
         instrutor = instrutorRepository.save(instrutor);
         return instrutor.toDTO();
     }

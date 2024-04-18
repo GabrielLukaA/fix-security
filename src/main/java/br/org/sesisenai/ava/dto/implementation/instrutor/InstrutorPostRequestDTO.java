@@ -3,6 +3,7 @@ package br.org.sesisenai.ava.dto.implementation.instrutor;
 import br.org.sesisenai.ava.dto.abstraction.CriacaoRequestConversorDTO;
 import br.org.sesisenai.ava.entity.Instrutor;
 import br.org.sesisenai.ava.entity.Usuario;
+import br.org.sesisenai.ava.security.model.UserDetailsEntity;
 import br.org.sesisenai.ava.service.InstrutorService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,17 +17,17 @@ import java.time.LocalDateTime;
 public class InstrutorPostRequestDTO implements CriacaoRequestConversorDTO<Instrutor> {
 
     private String nome;
-    private String email;
-    private String senha;
+//    private String email;
+//    private String senha;
     private String areaEspecializacao;
+    private UserDetailsEntity userDetailsEntity;
 
     public Instrutor toEntity() {
         Instrutor instrutor = new Instrutor();
         instrutor.setNome(this.nome);
-        instrutor.setEmail(this.email);
-        instrutor.setSenha(this.senha);
         instrutor.setAreaEspecializacao(this.areaEspecializacao);
         instrutor.setDataCadastro(LocalDateTime.now());
+        instrutor.setUserDetailsEntity(this.userDetailsEntity);
         return instrutor;
     }
 }
